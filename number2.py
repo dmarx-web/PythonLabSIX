@@ -1,57 +1,71 @@
-ru_dict = {
-    'а': 'a',
-    'б': 'b',
-    'в': 'v',
-    'г': 'g',
-    'д': 'd',
-    'е': 'e',
-    'ё': 'yo',
-    'ж': 'zh',
-    'з': 'z',
-    'и': 'i',
-    'й': 'y',
-    'к': 'k',
-    'л': 'l',
-    'м': 'm',
-    'н': 'n',
-    'о': 'o',
-    'п': 'p',
-    'р': 'r',
-    'с': 's',
-    'т': 't',
-    'у': 'u',
-    'ф': 'f',
-    'х': 'h',
-    'ц': 'ts',
-    'ч': 'ch',
-    'ш': 'sh',
-    'щ': 'sch',
-    'ъ': '',
-    'ы': 'y',
-    'ь': '',
-    'э': 'e',
-    'ю': 'yu',
-    'я': 'ya'
-}
+import random
 
 
-def transliterate(text):
-    result = ''
+def min_element_row(row):
+    min_element = 10000000
 
-    for char in text:
+    for element in row:
 
-        if char.lower() in ru_dict:
+        if min_element > element:
+            min_element = element
 
-            if char.isupper():
-                result += ru_dict[char.lower()].upper()
-            else:
-                result += ru_dict[char.lower()]
+    return min_element
 
+
+def max_element_col(col):
+    max_element = -10000000
+
+    for element in col:
+
+        if max_element < element:
+            max_element = element
+
+    return max_element
+
+
+def saddle_points(matrix):
+    points = []
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            element = matrix[i][j]
+            if element == min_element_row(matrix[i]) and element == max_element_col(row[j] for row in matrix):
+                points.append((i+1, j+1))
+    return points
+
+
+while True:
+    try:
+        number_elements = int(input("Введите количество строк: "))
+        if number_elements >= 0:
+            break
         else:
-            result += char
+            print("Ошибка: Введено отрицательное число. Попробуйте снова.")
+        break
+    except ValueError:
+        print("Вы ввели некорректное значение. Пожалуйста, введите целое число.")
 
-    return result
+while True:
+    try:
+        number_of_rows = int(input("Введите количество элементов в строке: "))
+        if number_of_rows >= 0:
+            break
+        else:
+            print("Ошибка: Введено отрицательное число. Попробуйте снова.")
+        break
+    except ValueError:
+        print("Вы ввели некорректное значение. Пожалуйста, введите целое число.")
 
-russian_text = input()
-english_text = transliterate(russian_text)
-print(english_text)
+matrix = [[random.randint(1, 100) for j in range(number_of_rows)] for i in range(number_elements)]
+
+'''matrix = [
+    [2,3,2,6,2,4],
+    [1,2,0,0,1,1],
+    [2,6,2,3,2,7],
+    [0,5,1,7,1,4]
+]'''
+
+print('Матрица:')
+print(*matrix, sep='\n')
+if saddle_points(matrix) != []:
+    print('Номер строки и столбца седловой точки матрицы: ', *saddle_points(matrix))
+else: print('В матрице отсутствует седловая точка.')
